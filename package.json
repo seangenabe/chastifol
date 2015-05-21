@@ -1,0 +1,26 @@
+{
+  "name": "chastifol",
+  "version": "1.0.0",
+  "description": "Execs commands in child processes and reechoes their output.",
+  "main": "./lib/chastifol.js",
+  "bin": "./bin/chastifol",
+  "scripts": {
+    "test": "node ./test/test.js",
+    "start": "node ./lib/chastifol.js"
+  },
+  "directories": {
+    "lib": "./lib"
+  }
+  "keywords": [
+    "spawn",
+    "child_process",
+    "exec"
+  ],
+  "author": "Sean Genabe <seangenabe@outlook.com>",
+  "repository": "seangenabe/chastifol",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "split": "^0.3.3"
+  }
+}
