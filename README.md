@@ -16,6 +16,10 @@ Exits with the first non-zero exit code if found.
 **Example usage**
 
     chastifol "node server.js" "npm run watch" "livereload app"
+    
+Tip: When using npm, if you have a complicated command that has quotes, etc., it might be a good idea to separate it into another script. Then write:
+
+    chastifol "npm run task1" "npm run task2" ...
 
 ## API
 
