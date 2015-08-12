@@ -2,6 +2,9 @@
 
 Execs commands in child processes and reechoes their output.
 
+[![Build Status](https://travis-ci.org/seangenabe/chastifol.svg?branch=master)](https://travis-ci.org/seangenabe/chastifol)
+[![Dependency Status](https://david-dm.org/seangenabe/chastifol.svg)](https://david-dm.org/seangenabe/chastifol)
+
 ## Command-line usage
 
     chastifol "command1 arg1 ... argn" "command2 arg1 ... argn" ...
