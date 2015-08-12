@@ -21,6 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^1.0.0",
-    "split": "^0.3.3"
+    "split": "^1.0.0"
   }
 }
