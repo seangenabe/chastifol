@@ -1,14 +1,23 @@
 
 var chastifol = require('./../lib/chastifol')
 var assert = require('assert')
+var Path = require('path')
 
-chastifol(["echo 1", "echo 2"], function(err, exitCode) {
-  try {
-    if (err) throw err
-    assert(exitCode, 0)
+chastifol(
+  ["cat test/1.txt", "cat test/a.txt"],
+  {
+    color: true,
+    out: process.stdout,
+    err: process.stderr
+  },
+  function(err, exitCode) {
+    try {
+      if (err) throw err
+      assert(exitCode, 0)
+    }
+    catch (err2) {
+      console.error(err2)
+      process.exit(1)
+    }
   }
-  catch (err2) {
-    console.error(err2)
-    process.exit(1)
-  }
-})
+)

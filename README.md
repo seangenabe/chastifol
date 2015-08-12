@@ -36,29 +36,30 @@ Tip: When using npm, if you have a complicated command that has quotes, etc., it
 
 * `commands` - `string[]` - an array of commands to run, with space-separated arguments
 * `opts` - `Object`
-  * `out` - `Writable|Function|Array` - Standard output stream selector, see below
-  * `err` - `Writable|Function|Array` - Standard error stream selector, see below
+  * `out` - `Writable|Function|Array` - Optional. Output stream selector for standard output stream, see below. Default: `undefined`.
+  * `err` - `Writable|Function|Array` - Optional. Output stream selector for standard error stream, see below. Default: `undefined`.
+  * `color` - `bool|bool[]` - Optional. When set, buffers the output by line, and color-codes each by process. A value can be specified for each process by passing an array. Defaults to false.
 * `next` - `Function(Error, Number[])` - Called when all child processes terminate
 
 **Returns**
 
-`ChildProcess[]` - An array of child processes corresponding to each command
+`ChildProcess[]` - An array of `ChildProcess` instances corresponding to each command
 
 **Stream selectors**
 
-Pass a `Writable` stream to enable colored line-by-line buffered output.
+Either or both the standard output stream or the standard error stream of each child process can be redirected to a stream you specify. The stream can be specified as follows:
 
-Pass a `function(commandIndex, commandText)` and it will be called with:
+* Pass `null` or `undefined` to not assign an output stream.
+* Pass a `Writable` stream to assign as the output stream.
+* Pass a `function(commandIndex, commandText)` and it will be called with:
+  * `commandIndex` - The index of the command you passed.
+  * `commandText` - The text of the command you passed.
+  The function should return a `Writable` stream. The child process stream will
+  be directly piped into that stream.
+* Pass an `Array` and it will be indexed by the command index.
+  Each indexed element should either be a `Writable` or a `Function` and will follow the above rules.
 
-* `commandIndex` - The index of the command you passed.
-* `commandText` - The text of the command you passed.
-
-The function should return a `Writable` stream. The child process stream will
-be directly piped into that stream.
-
-Pass an `Array` and it will be indexed by the command index.
-The indexed element should either be a `Writable` or a `Function` and will follow the above rules.
-If an array is not passed, the `Writable` or the `Function` will be applied to all corresponding streams.
+If an array is not passed, all corresponding streams will be redirected to the specified `Writable` or `Function`.
 
 ## Install
 
