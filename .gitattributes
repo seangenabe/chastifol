@@ -1,2 +1,2 @@
 * text=auto
-bin/ eol=lf
+bin/ -text
