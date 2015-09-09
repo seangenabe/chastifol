@@ -20,11 +20,7 @@ Exits with the first non-zero exit code if found.
 
 Argument handling is done by [subarg](https://www.npmjs.com/package/subarg).
 
-[child_process.exec]: https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
-
 **Example**
-
-For example, the following command:
 
 ```bash
     $ chastifol [ echo Hello ] [ echo World ]
@@ -38,32 +34,32 @@ For example, the following command:
 
 **Example scenario**
 
-    chastifol "node server.js" "npm run watch" "livereload app"
+    chastifol [ node server.js ] [ npm run watch ] [ livereload app ]
 
-Tip: When using npm, if you have a complicated command that has quotes, etc., it might be a good idea to separate it into another script. Then write:
+Tip: When using npm, if you have a complicated or long command that has special characters, etc., it might be a good idea to separate it into another script. Then write:
 
-    chastifol "npm run task1" "npm run task2" ...
+    chastifol [ npm run task1 ] [ npm run task2 ] ...
 
 ## API
 
     var chastifol = require('chastifol')
 
-### `chastifol(commands, [opts], next)`
+### `chastifol(commands, [opts], [next])`
 
-[Exec](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)s commands and reechoes their output.
+[Exec][child_process.exec]s commands and reechoes their output.
 
 **Arguments**
 
 * `commands` - `string[]` - an array of commands to run, with space-separated arguments
-* `opts` - `Object`
+* `opts` - `Object` - optional options object.
   * `out` - `Writable|Function|Array` - Optional. Output stream selector for standard output stream, see below. Default: `undefined`.
   * `err` - `Writable|Function|Array` - Optional. Output stream selector for standard error stream, see below. Default: `undefined`.
   * `color` - `bool|bool[]` - Optional. When set, buffers the output by line, and color-codes each by process. A value can be specified for each process by passing an array. Defaults to false.
-* `next` - `Function(Error, Number[])` - Called when all child processes terminate.
+* `next` - `Function(Error, Number[])` - Optional. Called when all child processes terminate.
 
 **Returns**
 
-`ChildProcess[]` - An array of `ChildProcess` instances corresponding to each command
+`ChildProcess[]` - An array of `[ChildProcess][child_process]` instances corresponding to each command.
 
 **Errors**
 
@@ -100,3 +96,6 @@ Install the module globally. Can be used as a CLI tool anywhere.
 ## License
 
 MIT
+
+[child_process]: https://nodejs.org/api/child_process.html
+[child_process.exec]: https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
