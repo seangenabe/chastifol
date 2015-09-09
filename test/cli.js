@@ -13,9 +13,10 @@ describe('CLI', function() {
   }
 
   before(clean)
+  after(clean)
 
   it('should run the scripts without error', function(cb) {
-    ChildProcess.exec('chastifol' +
+    ChildProcess.exec('node .' +
       ' [ node test/write-file c.txt ]' +
       ' [ node test/write-file d.txt ]', function(error, stdout, stderr) {
         try {
@@ -31,7 +32,7 @@ describe('CLI', function() {
   })
 
   it('should run the scripts with error', function(cb) {
-    ChildProcess.exec('chastifol' +
+    ChildProcess.exec('node .' +
       ' [ exit 0 ]' +
       ' [ exit 7 ]', function(err1, stdout, stderr) {
         try {
