@@ -5,7 +5,7 @@
   "main": "./lib/chastifol.js",
   "bin": "./bin/chastifol",
   "scripts": {
-    "test": "node ./test/test.js",
+    "test": "mocha",
     "start": "node ./lib/chastifol.js"
   },
   "directories": {
@@ -21,6 +21,13 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^1.0.0",
-    "split": "^1.0.0"
+    "shell-escape": "^0.2.0",
+    "split": "^1.0.0",
+    "subarg": "^1.0.0",
+    "unparse-args": "^1.0.1",
+    "valid-filename": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.2"
   }
 }

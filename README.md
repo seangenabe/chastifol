@@ -7,19 +7,37 @@ Execs commands in child processes and reechoes their output.
 
 ## Command-line usage
 
-    chastifol "command1 arg1 ... argn" "command2 arg1 ... argn" ...
+    chastifol [ command1 arg1 ... argn ] [ command2 arg1 ... argn" ] ...
 
-[Exec](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)s commands and reechoes their output.
+[Exec][child_process.exec]s commands and reechoes their output.
 
 The standard output and error streams of each command will be redirected to the same streams of this process,
 with colored and indexed indicators from which command it originated from.
 
 Exits with the first non-zero exit code if found.
 
-**Example usage**
+Argument handling is done by [subarg](https://www.npmjs.com/package/subarg).
+
+[child_process.exec]: https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
+
+**Example**
+
+For example, the following command:
+
+```bash
+    $ chastifol [ echo Hello ] [ echo World ]
+    0 out>Hello
+    0 out>
+    0 out>
+    1 out>World
+    1 out>
+    1 out>
+```
+
+**Example scenario**
 
     chastifol "node server.js" "npm run watch" "livereload app"
-    
+
 Tip: When using npm, if you have a complicated command that has quotes, etc., it might be a good idea to separate it into another script. Then write:
 
     chastifol "npm run task1" "npm run task2" ...
@@ -39,11 +57,17 @@ Tip: When using npm, if you have a complicated command that has quotes, etc., it
   * `out` - `Writable|Function|Array` - Optional. Output stream selector for standard output stream, see below. Default: `undefined`.
   * `err` - `Writable|Function|Array` - Optional. Output stream selector for standard error stream, see below. Default: `undefined`.
   * `color` - `bool|bool[]` - Optional. When set, buffers the output by line, and color-codes each by process. A value can be specified for each process by passing an array. Defaults to false.
-* `next` - `Function(Error, Number[])` - Called when all child processes terminate
+* `next` - `Function(Error, Number[])` - Called when all child processes terminate.
 
 **Returns**
 
 `ChildProcess[]` - An array of `ChildProcess` instances corresponding to each command
+
+**Errors**
+
+`chastifol()` will throw some errors if it didn't like some of your input.
+It will throw only when it's called, so watch out for that.
+If it does throw, it will never get to call the `next` callback.
 
 **Stream selectors**
 

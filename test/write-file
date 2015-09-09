@@ -1,0 +1,8 @@
+
+// Keep me excluded from mocha tests
+
+var FS = require('fs')
+var Path = require('path')
+
+var file = process.argv[2]
+FS.writeFileSync(Path.join(__dirname, file), 'foo')
