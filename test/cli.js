@@ -2,6 +2,7 @@
 var ChildProcess = require('child_process')
 var FS = require('fs')
 var assert = require('assert')
+var OS = require('os')
 
 describe('CLI', function() {
 
@@ -16,11 +17,26 @@ describe('CLI', function() {
   before(clean)
   after(clean)
 
-  it('should run the scripts without error', function(cb) {
-    var cp = ChildProcess.exec('node .' +
+  var test1command
+  var test1title =
+  var platform = os.platform()
+  if (platform === 'win32') {
+    // On Windows, escape commands using `"`. Escape quotes using `\"`
+    test1command = 'node .' +
       ' [ node test/write-file c.txt ]' +
       ' [ node test/write-file "d with space.txt" ]' +
-      ' "node test/write-file \\"e with space.txt\\"', function(error, stdout, stderr) {
+      ' "node test/write-file \\"e with space.txt\\"'
+  }
+  else {
+    // Escape commands using `'`. Escape quotes using `\'`
+    test1command = 'node .' +
+      ' [ node test/write-file c.txt ]' +
+      " [ node test/write-file 'd with space.txt' ]" +
+      " 'node test/write-file \'e with space.txt\''"
+  }
+
+  it('should run the scripts without error (' + platform + ')', function(cb) {
+    var cp = ChildProcess.exec(, function(error, stdout, stderr) {
         try {
           if (error) throw error
           assert.strictEqual(FS.readFileSync('test/c.txt', {encoding: 'utf8'}), 'foo')
