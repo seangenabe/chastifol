@@ -1,7 +1,7 @@
 {
   "name": "chastifol",
   "version": "2.0.0",
-  "description": "Execs commands in child processes and reechoes their output.",
+  "description": "Execs commands in child processes in parallel and reechoes their output.",
   "main": "./lib/chastifol.js",
   "bin": "./bin/chastifol",
   "scripts": {
@@ -14,7 +14,12 @@
   "keywords": [
     "spawn",
     "child_process",
-    "exec"
+    "exec",
+    "parallel",
+    "simultaneous",
+    "process",
+    "execute",
+    "shell"
   ],
   "author": "Sean Genabe <seangenabe@outlook.com>",
   "repository": "seangenabe/chastifol",

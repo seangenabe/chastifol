@@ -120,6 +120,11 @@ npm install -g chastifol
 
 Install the module globally. Can be used as a CLI tool anywhere.
 
+## Similar packages
+
+* [parallelshell](https://www.npmjs.com/package/parallelshell)
+* [pm2](https://www.npmjs.com/package/pm2)
+
 ## License
 
 MIT
