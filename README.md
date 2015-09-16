@@ -1,6 +1,6 @@
 # Chastifol
 
-Execs commands in child processes and reechoes their output.
+[Exec][child_process.exec]s commands in child processes in parallel and reechoes their output.
 
 [![npm](https://img.shields.io/npm/v/chastifol.svg?style=flat-square)](https://www.npmjs.com/package/chastifol)
 [![Build Status](https://img.shields.io/travis/seangenabe/chastifol/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/chastifol)
@@ -9,46 +9,72 @@ Execs commands in child processes and reechoes their output.
 
 ## Command-line usage
 
-    chastifol [ command1 arg1 ... argn ] [ command2 arg1 ... argn" ] ...
+```bash
+chastifol <commandDef1>[ <commandDef2>][...]
+```
 
-[Exec][child_process.exec]s commands and reechoes their output.
+where commandDefN can be one of (see the Arguments section below):
+
+* `command`
+* `"command arg1 \"arg2 with space\" ..."`
+* `[ command arg1 "arg2 with space" ...]`
 
 The standard output and error streams of each command will be redirected to the same streams of this process,
 with colored and indexed indicators from which command it originated from.
 
 Exits with the first non-zero exit code if found.
 
-Argument handling is done by [subarg](https://www.npmjs.com/package/subarg).
+### Arguments
 
-**Example**
+Command arguments can either be literal string arguments or be surrounded by square brackets (or a combination of both!).
+
+Argument handling is done by [subarg][subarg].
+
+* When a command argument is a literal string,
+  * Simple words such as `exit`, `echo`, `rm`, `mkdirp` are ok to be as-is.
+  * More complicated combinations such as those containing slashes, backslashes, or spaces might need to be wrapped depending on your operating system.
+    * Windows arguments should be wrapped with double-quotation marks `"`.
+    * Other operating systems use single-quotation marks `'` instead.
+  * Library writers and others concerned: for a cross-platform solution, do not use this option.
+* When a command argument is wrapped in square brackets ` [ ] `,
+  * A new [subarg][subarg] context is created.
+  * Brackets can be nested indefinitely, on commands that support subarg too (such as [browserify][browserify]).
+
+**Sample run**
 
 ```bash
-    $ chastifol [ echo Hello ] [ echo World ]
-    0 out>Hello
-    0 out>
-    0 out>
-    1 out>World
-    1 out>
-    1 out>
+$ chastifol [ echo Hello ] [ echo World ]
+0 out>Hello
+0 out>
+0 out>
+1 out>World
+1 out>
+1 out>
 ```
+
+(The extra newlines are from the shell interpreter—cmd/bash/etc.—and might differ among platforms.)
 
 **Example scenario**
 
-    chastifol [ node server.js ] [ npm run watch ] [ livereload app ]
+The following will run your server, watcher and livereload server all at the same time:
+
+```bash
+chastifol [ node server.js ] [ npm run watch ] [ livereload app ]
+```
 
 Tip: When using npm, if you have a complicated or long command that has special characters, etc., it might be a good idea to separate it into another script. Then write:
 
-    chastifol [ npm run task1 ] [ npm run task2 ] ...
+```bash
+chastifol [ npm run task1 ] [ npm run task2 ] ...
+```
 
 ## API
 
-    var chastifol = require('chastifol')
+```javascript
+var chastifol = require('chastifol')
+```
 
 ### `chastifol(commands, [opts], [next])`
-
-[Exec][child_process.exec]s commands and reechoes their output.
-
-**Arguments**
 
 * `commands` - `string[]` - an array of commands to run, with space-separated arguments
 * `opts` - `Object` - optional options object.
@@ -56,10 +82,7 @@ Tip: When using npm, if you have a complicated or long command that has special 
   * `err` - `Writable|Function|Array` - Optional. Output stream selector for standard error stream, see below. Default: `undefined`.
   * `color` - `bool|bool[]` - Optional. When set, buffers the output by line, and color-codes each by process. A value can be specified for each process by passing an array. Defaults to false.
 * `next` - `Function(Error, Number[])` - Optional. Called when all child processes terminate.
-
-**Returns**
-
-`ChildProcess[]` - An array of `[ChildProcess][child_process]` instances corresponding to each command.
+* Return: `ChildProcess[]` - An array of `[ChildProcess][child_process]` instances corresponding to each command.
 
 **Errors**
 
@@ -85,11 +108,15 @@ If an array is not passed, all corresponding streams will be redirected to the s
 
 ## Install
 
-`npm install chastifol`
+```bash
+npm install chastifol
+```
 
 Install the module locally if you plan to use the API or run it in your npm scripts.
 
-`npm install -g chastifol`
+```bash
+npm install -g chastifol
+```
 
 Install the module globally. Can be used as a CLI tool anywhere.
 
@@ -97,5 +124,7 @@ Install the module globally. Can be used as a CLI tool anywhere.
 
 MIT
 
+[subarg]: https://www.npmjs.com/package/subarg
+[browserify]: https://www.npmjs.com/package/browserify
 [child_process]: https://nodejs.org/api/child_process.html
 [child_process.exec]: https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback

@@ -9,26 +9,31 @@ describe('CLI', function() {
 
   function clean() {
     try { FS.unlinkSync('test/c.txt') } catch (err) {}
-    try { FS.unlinkSync('test/d.txt') } catch (err) {}
+    try { FS.unlinkSync('test/d with space.txt') } catch (err) {}
+    try { FS.unlinkSync('test/e with space.txt') } catch (err) {}
   }
 
   before(clean)
   after(clean)
 
   it('should run the scripts without error', function(cb) {
-    ChildProcess.exec('node .' +
+    var cp = ChildProcess.exec('node .' +
       ' [ node test/write-file c.txt ]' +
-      ' [ node test/write-file d.txt ]', function(error, stdout, stderr) {
+      ' [ node test/write-file "d with space.txt" ]' +
+      ' "node test/write-file \\"e with space.txt\\"', function(error, stdout, stderr) {
         try {
           if (error) throw error
           assert.strictEqual(FS.readFileSync('test/c.txt', {encoding: 'utf8'}), 'foo')
-          assert.strictEqual(FS.readFileSync('test/d.txt', {encoding: 'utf8'}),'foo')
+          assert.strictEqual(FS.readFileSync('test/d with space.txt', {encoding: 'utf8'}),'foo')
+          assert.strictEqual(FS.readFileSync('test/e with space.txt', {encoding: 'utf8'}), 'foo')
           cb()
         }
         catch (err) {
           cb(err)
         }
       })
+    //cp.stdout.pipe(process.stdout)
+    //cp.stderr.pipe(process.stderr)
   })
 
   it('should run the scripts with error', function(cb) {

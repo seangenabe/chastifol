@@ -10,7 +10,7 @@ describe('API', function() {
 
   function clean() {
     try { FS.unlinkSync('test/a.txt') } catch (err) {}
-    try { FS.unlinkSync('test/b.txt') } catch (err) {}
+    try { FS.unlinkSync('test/b with space.txt') } catch (err) {}
   }
 
   before(clean)
@@ -20,7 +20,7 @@ describe('API', function() {
     var cpArr = chastifol(
       [
         'node test/write-file a.txt',
-        'node test/write-file b.txt'
+        'node test/write-file "b with space".txt'
       ],
       {
         out: process.stdout,
@@ -30,7 +30,7 @@ describe('API', function() {
         try {
           if (err) throw err
           assert.strictEqual(FS.readFileSync('test/a.txt', {encoding: 'utf8'}), 'foo')
-          assert.strictEqual(FS.readFileSync('test/b.txt', {encoding: 'utf8'}), 'foo')
+          assert.strictEqual(FS.readFileSync('test/b with space.txt', {encoding: 'utf8'}), 'foo')
           cb()
         }
         catch (err2) {
