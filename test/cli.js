@@ -33,8 +33,8 @@ describe('CLI', function() {
     test1command = 'node .' +
       ' [ node test/write-file c.txt ]' +
       " [ node test/write-file 'd with space.txt' ]" +
-      " 'node test/write-file \'e with space.txt\''" +
-      " 'node test/write-file \'f/f nested.txt\''"
+      " 'node test/write-file \\'e with space.txt\\''" +
+      " 'node test/write-file \\'f/f nested.txt\\''"
   }
 
   it('should run the scripts without error (' + platform + ')', function(cb) {
