@@ -12,36 +12,39 @@ describe('CLI', function() {
     try { FS.unlinkSync('test/c.txt') } catch (err) {}
     try { FS.unlinkSync('test/d with space.txt') } catch (err) {}
     try { FS.unlinkSync('test/e with space.txt') } catch (err) {}
+    try { FS.unlinkSync('test/f/f nested.txt') } catch (err) {}
   }
 
   before(clean)
   after(clean)
 
   var test1command
-  var test1title =
-  var platform = os.platform()
+  var platform = OS.platform()
   if (platform === 'win32') {
     // On Windows, escape commands using `"`. Escape quotes using `\"`
     test1command = 'node .' +
       ' [ node test/write-file c.txt ]' +
       ' [ node test/write-file "d with space.txt" ]' +
-      ' "node test/write-file \\"e with space.txt\\"'
+      ' "node test/write-file \\"e with space.txt\\""' +
+      ' "node test/write-file \\"f\\\\f nested.txt\\""'
   }
   else {
     // Escape commands using `'`. Escape quotes using `\'`
     test1command = 'node .' +
       ' [ node test/write-file c.txt ]' +
       " [ node test/write-file 'd with space.txt' ]" +
-      " 'node test/write-file \'e with space.txt\''"
+      " 'node test/write-file \'e with space.txt\''" +
+      " 'node test/write-file \'f/f nested.txt\''"
   }
 
   it('should run the scripts without error (' + platform + ')', function(cb) {
-    var cp = ChildProcess.exec(, function(error, stdout, stderr) {
+    var cp = ChildProcess.exec(test1command, function(error, stdout, stderr) {
         try {
           if (error) throw error
           assert.strictEqual(FS.readFileSync('test/c.txt', {encoding: 'utf8'}), 'foo')
           assert.strictEqual(FS.readFileSync('test/d with space.txt', {encoding: 'utf8'}),'foo')
           assert.strictEqual(FS.readFileSync('test/e with space.txt', {encoding: 'utf8'}), 'foo')
+          assert.strictEqual(FS.readFileSync('test/f/f nested.txt', {encoding: 'utf8'}), 'foo')
           cb()
         }
         catch (err) {

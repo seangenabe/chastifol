@@ -1,4 +1,4 @@
-test/*.txt
+test/**/*.txt
 *.log
 node_modules/
 .idea/
