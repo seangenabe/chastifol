@@ -1,10 +1,11 @@
 {
   "name": "chastifol",
-  "version": "2.1.0",
+  "version": "3.0.0-1",
   "description": "Execs commands in child processes in parallel and reechoes their output.",
   "main": "./lib/chastifol.js",
   "bin": "./bin/chastifol",
   "scripts": {
+    "pretest": "npm link",
     "test": "mocha",
     "start": "node ./lib/chastifol.js"
   },
@@ -26,13 +27,26 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^1.0.0",
-    "shell-escape": "^0.2.0",
+    "debug": "^2.2.0",
     "split": "^1.0.0",
     "subarg": "^1.0.0",
-    "unparse-args": "^1.0.1",
-    "valid-filename": "^1.1.0"
+    "unparse-args": "^1.0.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "chai": "^3.3.0",
+    "chai-as-promised": "^5.1.0",
+    "command-join": "^1.0.1",
+    "concat-stream": "^1.5.0",
     "mocha": "^2.3.2"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "babel": {
+    "plugins": [
+      "transform-async-to-generator"
+    ]
   }
 }

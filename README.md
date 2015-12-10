@@ -7,6 +7,10 @@
 [![Dependency Status](https://img.shields.io/david/seangenabe/chastifol.svg?style=flat-square)](https://david-dm.org/seangenabe/chastifol)
 [![devDependency Status](https://img.shields.io/david/dev/seangenabe/chastifol.svg?style=flat-square)](https://david-dm.org/seangenabe/chastifol#info=devDependencies)
 
+## Rationale
+
+This is an alternative to the bash operator `&`, which isn't exactly cross-platform (doesn't mean the same in Windows cmd).
+
 ## Command-line usage
 
 ```bash
@@ -17,10 +21,9 @@ where commandDefN can be one of (see the Arguments section below):
 
 * `command`
 * `"command arg1 \"arg2 with space\" ..."`
-* `[ command arg1 "arg2 with space" ...]`
+* `[ command arg1 "arg2 with space" ... ]`
 
-The standard output and error streams of each command will be redirected to the same streams of this process,
-with colored and indexed indicators from which command it originated from.
+The standard output and error streams of each command will be redirected to the same streams of the host process, with colored and indexed indicators from which command it originated from.
 
 Exits with the first non-zero exit code if found.
 
@@ -35,7 +38,7 @@ Argument handling is done by [subarg][subarg].
   * More complicated combinations such as those containing slashes, backslashes, or spaces might need to be wrapped depending on your operating system.
     * Windows arguments should be wrapped with double-quotation marks `"`.
     * Other operating systems use single-quotation marks `'` instead.
-  * Library writers and others concerned: for a cross-platform solution, do not use this option.
+  * Library writers and others concerned: for a cross-platform solution, do not use this option (due to the differences in quoting).
 * When a command argument is wrapped in square brackets ` [ ] `,
   * A new [subarg][subarg] context is created.
   * Brackets can be nested indefinitely, on commands that support subarg too (such as [browserify][browserify]).
@@ -71,40 +74,59 @@ chastifol [ npm run task1 ] [ npm run task2 ] ...
 ## API
 
 ```javascript
-var chastifol = require('chastifol')
+const Chastifol = require('chastifol')
 ```
 
-### `chastifol(commands, [opts], [next])`
+### callable class Chastifol
 
-* `commands` - `string[]` - an array of commands to run, with space-separated arguments
-* `opts` - `Object` - optional options object.
-  * `out` - `Writable|Function|Array` - Optional. Output stream selector for standard output stream, see below. Default: `undefined`.
-  * `err` - `Writable|Function|Array` - Optional. Output stream selector for standard error stream, see below. Default: `undefined`.
-  * `color` - `bool|bool[]` - Optional. When set, buffers the output by line, and color-codes each by process. A value can be specified for each process by passing an array. Defaults to false.
-* `next` - `Function(Error, Number[])` - Optional. Called when all child processes terminate.
-* Return: `ChildProcess[]` - An array of `[ChildProcess][child_process]` instances corresponding to each command.
+`Chastifol` is a callable class, which means you can either call it directly as a function or instantiate instances of the class with `new`.
 
-**Errors**
+#### Chastifol(commands, opts = {})
 
-`chastifol()` will throw some errors if it didn't like some of your input.
-It will throw only when it's called, so watch out for that.
-If it does throw, it will never get to call the `next` callback.
+Will create a new instance of `Chastifol` with the specified parameters, calls `start` on it, and returns that instance.
+
+Parameters: Described below.
+Returns: `Chastifol` - A `Chastifol` instance.
+
+#### #constructor(commands, opts = {})
+
+Creates a new instance of `Chastifol`.
+
+Parameters:
+* `commands: Iterable<String>`: an array of commands to run, with space-separated arguments.
+* `opts: Object`: optional options object
+  * `io: Array`: Optional. Stream selectors for each of the standard streams `[in, out, err]`.
+  * `in, out, err: Stream|Function|Array` - shortcuts to set the corresponding elements in `io`.
+  * `color: Boolean|Boolean[]` - Optional. When set, buffers the output by line, and color-codes each. Indexed by command if an array.
+
+### #start(): undefined
+
+Starts the commands. After synchronous execution, `#childProcesses` and `#exitAll` will be set.
+
+#### #childProcesses: ChildProcess[]
+
+The `ChildProcess` objects that were created.
+
+### #exitCodes: Number[]
+
+Exit codes from each process. Initialized to `[]` then filled by child processes as they exit.
+
+### #exitAll: Promise<Number[]>
+
+A promise that will be resolved when all child processes exit, with `#exitCodes` as the value.
 
 **Stream selectors**
 
-Either or both the standard output stream or the standard error stream of each child process can be redirected to a stream you specify. The stream can be specified as follows:
+The standard streams of each child process can be redirected to a stream you specify. The stream can be specified as follows:
 
-* Pass `null` or `undefined` to not assign an output stream.
-* Pass a `Writable` stream to assign as the output stream.
-* Pass a `function(commandIndex, commandText)` and it will be called with:
-  * `commandIndex` - The index of the command you passed.
-  * `commandText` - The text of the command you passed.
-  The function should return a `Writable` stream. The child process stream will
-  be directly piped into that stream.
-* Pass an `Array` and it will be indexed by the command index.
-  Each indexed element should either be a `Writable` or a `Function` and will follow the above rules.
-
-If an array is not passed, all corresponding streams will be redirected to the specified `Writable` or `Function`.
+* `Function`: Will be called with the parameters:
+  * `commandIndex`: The index of the command you passed.
+  * `commandText`: The text of the command you passed.
+  The function's return value will be used instead and will follow the rules after this one.
+* `Array`: The array will be indexed by the command index and will follow the rules after this one.
+* `null` or `undefined`: Do not assign a stream. This is the default.
+* A stream: pipes the standard stream to/from it. Output streams should be assigned `Writable` streams and the input stream should be assigned `Readable` ones.
+* The literal string `pipe`: Pipes the stream to/from the process running the code.
 
 ## Install
 
@@ -119,6 +141,10 @@ npm install -g chastifol
 ```
 
 Install the module globally. Can be used as a CLI tool anywhere.
+
+## Migrating from version 2 and below
+
+Version 2 used node-style callbacks in combination with node-style synchronous return values, a la `http.request`. That means in addition to accepting a callback to the main gist of what you needed, you also get the object that processes it as the return value. In v2 we returned `ChildProcess[]` and called back with `Number[]`. In version 3 we now use a class. The object created from the class will be returned when you call the main callable class, or you can create the object yourself. In the function version, we'll return the object created. To get the exit codes, you'll want to access `.exitAll`, or `.exitCodes` for a live version. To get the child processes, you'll want to access `.childProcesses`.
 
 ## Similar packages
 
