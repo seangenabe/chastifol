@@ -3,7 +3,8 @@
 [Exec][child_process.exec]s commands in child processes in parallel and reechoes their output.
 
 [![npm](https://img.shields.io/npm/v/chastifol.svg?style=flat-square)](https://www.npmjs.com/package/chastifol)
-[![Build Status](https://img.shields.io/travis/seangenabe/chastifol/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/chastifol)
+[![Travis Build Status](https://img.shields.io/travis/seangenabe/chastifol/master.svg?label=travis&style=flat-square)](https://travis-ci.org/seangenabe/chastifol)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/seangenabe/chastifol.svg?label=appveyor&style=flat-square)](https://ci.appveyor.com/project/seangenabe/chastifol)
 [![Dependency Status](https://img.shields.io/david/seangenabe/chastifol.svg?style=flat-square)](https://david-dm.org/seangenabe/chastifol)
 [![devDependency Status](https://img.shields.io/david/dev/seangenabe/chastifol.svg?style=flat-square)](https://david-dm.org/seangenabe/chastifol#info=devDependencies)
 
