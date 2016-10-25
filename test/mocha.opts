@@ -1,3 +1,0 @@
---compilers js:babel-register
---no-exit
-./test/*.test.js
