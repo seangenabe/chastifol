@@ -6,7 +6,7 @@
   "main": "./index.js",
   "scripts": {
     "lint": "eslint lib",
-    "pretest": "npm run build && npm run lint",
+    "pretest": "npm run build",
     "test": "ava --timeout=10s",
     "build": "babel lib --out-dir dist --plugins transform-strict-mode",
     "prepublish": "npm run build"
