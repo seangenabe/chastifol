@@ -73,6 +73,10 @@ Tip: When using npm, if you have a complicated or long command that has special 
 chastifol [ npm run task1 ] [ npm run task2 ] ...
 ```
 
+### Override colors
+
+Force color output by using `--colors` or `--no-colors`. Enabled by [supports-color](https://github.com/chalk/supports-color). This may be useful for example if you have nested `chastifol` instances, in which case you'd want to specify `--colors` on the nested instance.
+
 ## API
 
 ```javascript
