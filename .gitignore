@@ -1,5 +1,4 @@
-test/**/*.txt
-*.log
 node_modules/
-.idea/
-*.iml
+dist/
+npm-debug.log
+npm-debug.log*
