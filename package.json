@@ -3,13 +3,10 @@
   "version": "3.0.1",
   "description": "Execs commands in child processes in parallel and reechoes their output.",
   "bin": "./bin/chastifol",
-  "main": "./index.js",
+  "main": "./lib/chastifol",
   "scripts": {
     "lint": "eslint lib",
-    "pretest": "npm run build",
-    "test": "ava --timeout=10s",
-    "build": "babel lib --out-dir dist --plugins transform-strict-mode",
-    "prepublish": "npm run build"
+    "test": "ava --timeout=10s"
   },
   "directories": {
     "lib": "./lib"
@@ -41,28 +38,10 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
-    "babel-cli": "^6.18.0",
-    "babel-plugin-transform-async-to-generator": "^6.3.13",
-    "babel-plugin-transform-strict-mode": "^6.18.0",
-    "babel-register": "^6.3.13",
     "concat-stream": "^1.5.0",
     "eslint": "^3.8.1",
     "eslint-config-mirage": "^1.0.0"
   },
-  "editions": [
-    {
-      "description": "Source",
-      "directory": "lib",
-      "entry": "chastifol.js",
-      "syntaxes": ["javascript", "arrows", "const", "let", "template strings"]
-    },
-    {
-      "description": "node.js v4-compatible",
-      "directory": "dist",
-      "entry": "chastifol.js",
-      "syntaxes": ["javascript", "arrows", "const", "let", "template strings", "forced strict mode"]
-    }
-  ],
   "babel": {
     "plugins": [
       "transform-async-to-generator"

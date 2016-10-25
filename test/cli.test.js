@@ -44,7 +44,7 @@ function exec(command) {
 
 function includesElements(parentArray, queryArray) {
   return queryArray.every(q => {
-    return parentArray.includes(q)
+    return parentArray.indexOf(q) !== -1
   })
 }
 
