@@ -65,9 +65,3 @@ t('should run the scripts with error', async t => {
   )
   t.is(err.code, 7)
 })
-
-t('should work via the bin script', async t => {
-  let stdout = await exec('chastifol [ echo a ] "echo b"')
-  let result = stdout.toString().trim().split('\n')
-  t.true(includesElements(result, ['0 out>a', '1 out>b']))
-})
