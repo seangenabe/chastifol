@@ -3,7 +3,7 @@ const _concat = require('concat-stream')
 const t = require('ava')
 const PassThrough = require('stream').PassThrough
 
-const testdir = __dirname
+const testdir = '.'
 
 function concat() {
   let stream

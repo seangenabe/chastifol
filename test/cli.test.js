@@ -2,8 +2,8 @@ const ChildProcess = require('child_process')
 const t = require('ava')
 const Path = require('path')
 
-const testdir = __dirname
-const rootdir = Path.resolve(__dirname, '..')
+const testdir = '.'
+const rootdir = Path.resolve('.', '..')
 const binfile = Path.resolve(rootdir, 'bin/chastifol')
 
 let test1command
@@ -26,7 +26,7 @@ else {
 node ${binfile}
 [ node ${testdir}/recho c ]
 [ node ${testdir}/recho 'd with space' ]
-'node ${testdir}/recho '\\''e with space'\\'' '"
+'node ${testdir}/recho '\\''e with space'\\'' '
 'node ${testdir}/recho '\\''f\\with backslashes'\\'' '`.trim().split(JSEOL).join(' ')
 }
 
