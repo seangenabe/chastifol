@@ -6,7 +6,7 @@
   "main": "./lib/chastifol",
   "scripts": {
     "lint": "eslint lib",
-    "test": "ava --timeout=10s"
+    "test": "ava --timeout=30s"
   },
   "directories": {
     "lib": "./lib"
