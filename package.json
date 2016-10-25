@@ -52,13 +52,15 @@
   "editions": [
     {
       "description": "Source",
-      "entry": "lib/chastifol.js",
+      "directory": "lib",
+      "entry": "chastifol.js",
       "syntaxes": ["javascript", "arrows", "const", "let", "template strings"]
     },
     {
       "description": "node.js v4-compatible",
-      "entry": "dist/chastifol.js",
-      "syntaxes": ["javascript", "arrows", "const", "let", "template strings"]
+      "directory": "dist",
+      "entry": "chastifol.js",
+      "syntaxes": ["javascript", "arrows", "const", "let", "template strings", "forced strict mode"]
     }
   ],
   "babel": {
