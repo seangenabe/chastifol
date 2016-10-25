@@ -46,7 +46,7 @@
     "babel-register": "^6.3.13",
     "concat-stream": "^1.5.0",
     "eslint": "^3.8.1",
-    "eslint-config-mirage": "^1.0.0"
+    "eslint-config-mirage": "^2.0.0"
   },
   "editions": [
     {
