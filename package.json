@@ -1,6 +1,6 @@
 {
   "name": "chastifol",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Execs commands in child processes in parallel and reechoes their output.",
   "bin": "./bin/chastifol",
   "main": "./lib/chastifol",
