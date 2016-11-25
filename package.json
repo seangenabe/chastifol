@@ -38,7 +38,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "concat-stream": "^1.5.0",
-    "eslint": "^3.10.0",
+    "eslint": "^3.11.0",
     "eslint-config-mirage": "^1.0.0"
   },
   "babel": {
