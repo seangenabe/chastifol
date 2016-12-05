@@ -25,7 +25,7 @@
   "repository": "seangenabe/chastifol",
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "dependencies": {
     "chalk": "^1.0.0",
