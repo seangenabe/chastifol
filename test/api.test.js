@@ -3,28 +3,14 @@ const _concat = require('concat-stream')
 const t = require('ava')
 const PassThrough = require('stream').PassThrough
 
-const testdir = '.'
+const testdir = __dirname
 
 function concat() {
   let stream
   let promise = new Promise(resolve => {
-    stream = _concat(resolve)
+    stream = _concat({ encoding: 'buffer' }, resolve)
   })
   return { stream, promise }
-}
-
-function setEqual(set1, set2) {
-  set1 = new Set(set1)
-  set2 = new Set(set2)
-  if (set1.size !== set2.size) {
-    return false
-  }
-  for (let element of set2) {
-    if (!set1.has(element)) {
-      return false
-    }
-  }
-  return true
 }
 
 t('should not run', async t => {
@@ -59,8 +45,12 @@ t('should run the scripts without error', async t => {
   t.is(c.childProcesses.length, 2)
   let result = await c.exitAll
   t.deepEqual(result, [0, 0])
-  t.is((await out1.promise).toString().trim(), 'a#b#c')
-  t.is((await out2.promise).toString().trim(), 'def egh#i#j\\k\\l')
+
+  let out1result = (await out1.promise).toString().trim()
+  t.is(out1result, 'a#b#c')
+
+  let out2result = (await out2.promise).toString().trim()
+  t.is(out2result, 'def egh#i#j\\k\\l')
 })
 
 t('should run the scripts with nonzero exit code', async t => {
@@ -78,12 +68,13 @@ t('should accept single out stream', async t => {
   )
   res.childProcesses[0].stdout.pipe(out1.stream)
   res.childProcesses[1].stdout.pipe(out2.stream)
-  t.deepEqual(await res.exitAll, [0, 0])
+  let resExitAll = await res.exitAll
+  t.deepEqual(resExitAll, [0, 0])
   let outResult = await out.promise
   outResult = outResult.toString().trim().split('\n').filter(Boolean)
-  t.true(setEqual(outResult, ['a', 'b']))
-  let out1r = (await out1.promise).trim()
-  let out2r = (await out2.promise).trim()
+  t.deepEqual(new Set(outResult), new Set(['a', 'b']))
+  let out1r = (await out1.promise).toString().trim()
+  let out2r = (await out2.promise).toString().trim()
   t.is(out1r, 'a')
   t.is(out2r, 'b')
 })
@@ -96,9 +87,11 @@ t('should be able to read from a single input stream', async t => {
       [`node ${testdir}/catty`, `node ${testdir}/catty woof`],
       { in: stream, out: out.stream }
     )
-  stream.end('hello')
-  t.deepEqual(await res.exitAll, [0, 0])
+  setTimeout(() => stream.end('hello'), 4)
+  let resExitAllResult = await res.exitAll
   let pResult = (await out.promise)
     .toString().trim().split('\n').filter(Boolean)
-  t.true(setEqual(pResult, ['meowhellomeow', 'woofhellowoof']))
+
+  t.deepEqual(new Set(pResult), new Set(['meowhellomeow', 'woofhellowoof']))
+  t.deepEqual(resExitAllResult, [0, 0])
 })

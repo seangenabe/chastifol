@@ -45,6 +45,8 @@
     "files": [
       "test/*.test.js"
     ],
-    "failFast": true
+    "source": [
+      "lib/*.test.js"
+    ]
   }
 }

@@ -2,9 +2,8 @@ const ChildProcess = require('child_process')
 const t = require('ava')
 const Path = require('path')
 
-const testdir = '.'
-const rootdir = Path.resolve('.', '..')
-const binfile = Path.resolve(rootdir, 'bin/chastifol')
+const testdir = __dirname
+const binfile = Path.resolve(`${__dirname}/../bin/chastifol`)
 
 let test1command
 let platform = process.platform
