@@ -1,5 +1,3 @@
-'use strict' // eslint-disable-line strict
-
 // joins arguments with #
 
 setTimeout(() => {

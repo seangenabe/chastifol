@@ -1,5 +1,3 @@
-'use strict' // eslint-disable-line strict
-
 // wraps stdin with "meow" or the first argument.
 
 const concat = require('concat-stream')
