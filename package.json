@@ -41,11 +41,6 @@
     "eslint": "^3.8.1",
     "eslint-config-mirage": "^1.0.0"
   },
-  "babel": {
-    "plugins": [
-      "transform-async-to-generator"
-    ]
-  },
   "ava": {
     "files": [
       "test/*.test.js"
