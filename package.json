@@ -36,10 +36,10 @@
     "unparse-args": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "concat-stream": "^1.5.0",
-    "eslint": "^3.8.1",
-    "eslint-config-mirage": "^1.0.0"
+    "eslint": "^3.10.0",
+    "eslint-config-mirage": "^2.1.0"
   },
   "ava": {
     "files": [
