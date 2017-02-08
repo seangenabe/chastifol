@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "command-join": "^1.0.1",
+    "command-join": "^2.0.0",
     "debug": "^2.2.0",
     "split": "^1.0.0",
     "subarg": "^1.0.0",
