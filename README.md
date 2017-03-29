@@ -1,6 +1,6 @@
 # Chastifol
 
-[Exec][child_process.exec]s commands in child processes in parallel and reechoes their output.
+Spawns commands in child processes in parallel and reechoes their output.
 
 [![npm](https://img.shields.io/npm/v/chastifol.svg?style=flat-square)](https://www.npmjs.com/package/chastifol)
 [![Travis Build Status](https://img.shields.io/travis/seangenabe/chastifol/master.svg?label=travis&style=flat-square)](https://travis-ci.org/seangenabe/chastifol)
