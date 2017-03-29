@@ -48,13 +48,17 @@ function includesElements(parentArray, queryArray) {
 }
 
 t(`should run the scripts without error (${platform})`, async t => {
-  let stdout = await exec(test1command)
+  let stdout = (await exec(test1command)).toString().trim().split('\n')
   // can be out of order
-  t.true(includesElements(stdout.toString().trim().split('\n'), [
+  t.true(includesElements(stdout, [
     '0 out>c',
     '1 out>d with space',
     '2 out>e with space',
-    '3 out>f\\with backslashes'
+    '3 out>f\\with backslashes',
+    '0 end 0',
+    '1 end 0',
+    '2 end 0',
+    '3 end 0'
   ]))
 })
 
