@@ -1,5 +1,7 @@
 # Chastifol
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/seangenabe/chastifol.svg)](https://greenkeeper.io/)
+
 Spawns commands in child processes in parallel and reechoes their output.
 
 [![npm](https://img.shields.io/npm/v/chastifol.svg?style=flat-square)](https://www.npmjs.com/package/chastifol)
