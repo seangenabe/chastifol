@@ -30,7 +30,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "command-join": "^2.0.0",
-    "debug": "^2.2.0",
+    "debug": "^4.0.0",
     "split": "^1.0.0",
     "subarg": "^1.0.0",
     "unparse-args": "^1.0.1"
